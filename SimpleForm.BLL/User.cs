@@ -10,6 +10,5 @@ namespace SimpleForm.BLL
         public string FullName { get { return $"{FirstName} {LastName}"; } }
         public string Email { get; set; }
 
-        public IEnumerable<Form> FormsSent { get; set; }
     }
 }
