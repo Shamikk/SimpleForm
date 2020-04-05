@@ -7,6 +7,9 @@ namespace SimpleForm.DAL
 {
     public class SimpleFormDbContext : DbContext
     {
+        public SimpleFormDbContext()
+        {
+        }
         public SimpleFormDbContext(DbContextOptions<SimpleFormDbContext> options) : base(options)
         {
         }
