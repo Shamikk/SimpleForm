@@ -26,9 +26,19 @@ namespace SimpleForm.Web2.Controllers
                 }
                 var data = await response.Content.ReadAsStringAsync();
                 var forms = JsonConvert.DeserializeObject<IEnumerable<Form>>(data);
-                if(forms != null)
+                if (forms != null)
                 {
-                    return View();
+                    List<User> users = new List<User>();
+                    foreach (var form in forms)
+                    {
+                        var userInForm = users.SingleOrDefault(x => x.Id == form.Sender.Id);
+                        if (userInForm == null)
+                        {
+                            users.Add(form.Sender);
+                        }
+                    }
+
+                    return View(users);
                 }
                 return BadRequest("Something went wrong!");
             }
