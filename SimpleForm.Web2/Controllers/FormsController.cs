@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using SimpleForm.BLL;
 
 namespace SimpleForm.Web2.Controllers
@@ -31,7 +34,7 @@ namespace SimpleForm.Web2.Controllers
         // POST: Forms/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create(IFormCollection collection)
         {
             try
             {
@@ -47,7 +50,17 @@ namespace SimpleForm.Web2.Controllers
 
                 form.Sender = user;
 
-                
+                using (HttpClient client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri("http://localhost:59757");
+                    var formJson = JsonConvert.SerializeObject(form);
+                    var content = new StringContent(formJson, Encoding.UTF8, "application/json");
+                    var response = await client.PostAsync("api/forms", content);
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        return BadRequest("Something went wrong!");
+                    }
+                }
 
                 return RedirectToAction(nameof(Index));
             }
