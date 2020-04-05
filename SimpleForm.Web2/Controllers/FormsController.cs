@@ -14,9 +14,24 @@ namespace SimpleForm.Web2.Controllers
     public class FormsController : Controller
     {
         // GET: Forms
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View();
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://localhost:44368");
+                var response = await client.GetAsync("api/forms");
+                if (!response.IsSuccessStatusCode)
+                {
+                    return BadRequest("Something went wrong!");
+                }
+                var data = await response.Content.ReadAsStringAsync();
+                var forms = JsonConvert.DeserializeObject<IEnumerable<Form>>(data);
+                if(forms != null)
+                {
+                    return View();
+                }
+                return BadRequest("Something went wrong!");
+            }
         }
 
         // GET: Forms/Details/5
@@ -52,7 +67,7 @@ namespace SimpleForm.Web2.Controllers
 
                 using (HttpClient client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri("http://localhost:59757");
+                    client.BaseAddress = new Uri("https://localhost:44368");
                     var formJson = JsonConvert.SerializeObject(form);
                     var content = new StringContent(formJson, Encoding.UTF8, "application/json");
                     var response = await client.PostAsync("api/forms", content);
