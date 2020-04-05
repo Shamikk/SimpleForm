@@ -9,6 +9,7 @@ namespace SimpleForm.DAL.Configurations
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.ToTable(typeof(User).Name);
+            builder.HasKey(x => x.Id);
         }
     }
 }

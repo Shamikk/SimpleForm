@@ -12,6 +12,7 @@ namespace SimpleForm.DAL.Configurations
             builder.HasKey(k => k.Id);
             builder.HasOne(u => u.Sender)
                 .WithMany(f => f.FormsSent)
+                .HasForeignKey(f => f.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

@@ -17,7 +17,6 @@ namespace SimpleForm.BLL
             SetSteringWheel();
 
         }
-        //var car = new Car("aaa");
 
         public string CarBrand { get; set; }
         public String CarColor { get; set; }
@@ -47,12 +46,6 @@ namespace SimpleForm.BLL
             }
         }
 
-    }
-
-    public class SteringWheel
-    {
-        public string Shape { get; set; }
-        public bool IsLeather { get; set; }
     }
 
 
