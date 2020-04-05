@@ -25,7 +25,7 @@ namespace SimpleForm.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Form>>> GetForms()
         {
-            return await _context.Forms.ToListAsync();
+            return await _context.Forms.Include(x => x.Sender).ToListAsync();
         }
 
         // GET: api/Forms/5
